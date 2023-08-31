@@ -1,47 +1,54 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import Cabecalho from './components/Cabecalho.vue'
+import Formulario from './components/Formulario.vue'
+import Resultado from './components/Resultado.vue'
+
+function calcular() {
+    let tn1 = document.getElementById('txtn1');
+    let tn2 = document.getElementById('txtn2');
+
+    let operacao = document.getElementById('operacao');
+    let resultado = document.getElementById('resultado');
+
+    let n1 = parseFloat(tn1.value);
+    let n2 = parseFloat(tn2.value);
+    let operador = operacao.value;
+
+    if (operador == 'adicao') {
+        let s = n1 + n2;
+    }
+    if (operador == 'subtracao') {
+        let s = n1 - n2;
+    }
+    if (operador == 'multiplicacao') {
+        let s = n1 * n2;
+    }
+    if (operador == 'divisao') {
+        let s = n1 / n2;
+    }
+    if (operador ==''){
+        return resultado.innerHTML = 'Necessario escolher operação!';
+    }
+    
+    resultado.innerHTML = `A ${operador} entre ${n1} e ${n2} é igual a ${s}`
+}
+
+const botaoEstaDesabilitado = true;
+
+const EnderecoDaImagemDaCalculadora = "https://media.istockphoto.com/id/544462430/pt/vetorial/calculadora-isolada-numa-cor-de-fundo.jpg?s=612x612&w=0&k=20&c=W9AdCLbbUWCH6zm-SFrLJRLswRrtR9msfUHREFhOZR8="
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="container">
+        <Cabecalho :enderecoda-imagem="EnderecoDaImagemDaCalculadora" />
+        <Formulario :botao-esta-desabilitado="botaoEstaDesabilitado"/>
+        <Resultado/>
+    </div>    
 </template>
 
 <style scoped>
 header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+    background-color: rgb(10, 186, 218);
 }
 </style>

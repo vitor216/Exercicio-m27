@@ -43,7 +43,6 @@ const EnderecoDaImagemDaCalculadora = "https://media.istockphoto.com/id/54446243
                 <div class="col">
                     <input @keyup="evento => estado.num1 = evento.target.value" type="number" required placeholder="Primeiro Valor" class="form-control">
                     <input @keyup="evento => estado.num2 = evento.target.value" type="number" required placeholder="Segundo Valor" class="form-control">
-                    <input @keyup="evento => estado.Nome = evento.target.value" type="text" required placeholder="Digite seu Nome" class="form-control">
                 </div>
                     <div class="col-md-2">
                     <label>Selecione a operação:</label>

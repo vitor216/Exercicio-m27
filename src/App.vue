@@ -1,36 +1,24 @@
 <script setup>
-import Cabecalho from './components/Cabecalho.vue'
-import Formulario from './components/Formulario.vue'
-import Resultado from './components/Resultado.vue'
+import { reactive } from 'vue';
 
-function calcular() {
-    let tn1 = document.getElementById('txtn1');
-    let tn2 = document.getElementById('txtn2');
+const estado = reactive({
+    Operation: 'Adicao',
+    num1: '',
+    num2: '',
+})
 
-    let operacao = document.getElementById('operacao');
-    let resultado = document.getElementById('resultado');
-
-    let n1 = parseFloat(tn1.value);
-    let n2 = parseFloat(tn2.value);
-    let operador = operacao.value;
-
-    if (operador == 'adicao') {
-        let s = n1 + n2;
-    }
-    if (operador == 'subtracao') {
-        let s = n1 - n2;
-    }
-    if (operador == 'multiplicacao') {
-        let s = n1 * n2;
-    }
-    if (operador == 'divisao') {
-        let s = n1 / n2;
-    }
-    if (operador ==''){
-        return resultado.innerHTML = 'Necessario escolher operação!';
-    }
-    
-    resultado.innerHTML = `A ${operador} entre ${n1} e ${n2} é igual a ${s}`
+const Calcular = () => {
+    const { Operation } = estado;
+    switch (Operation) {
+        case 'Subtracao':
+            return parseFloat(estado.num1) - parseFloat(estado.num2);
+        case 'Multiplicacao':
+            return parseFloat(estado.num1) * parseFloat(estado.num2);
+        case 'Divisao':
+            return parseFloat(estado.num1) / parseFloat(estado.num2);
+        default:
+            return parseFloat(estado.num1) + parseFloat(estado.num2);
+        }
 }
 
 const botaoEstaDesabilitado = true;
@@ -41,14 +29,65 @@ const EnderecoDaImagemDaCalculadora = "https://media.istockphoto.com/id/54446243
 
 <template>
     <div class="container">
-        <Cabecalho :enderecoda-imagem="EnderecoDaImagemDaCalculadora" />
-        <Formulario :botao-esta-desabilitado="botaoEstaDesabilitado"/>
-        <Resultado/>
-    </div>    
+        <header class="p-5 mb-4 mt-4 rounded-3">
+            <div id="cabecalho">
+                <h1>Minha Calculadora</h1>
+                <img :src="EnderecoDaImagemDaCalculadora" alt="">
+            </div>
+            <p>
+                Escolha a Operação e Bons Calculos...
+            </p>
+        </header>
+        <form @button.prevent="Calcular()">
+            <div class="row">
+                <div class="col">
+                    <input @keyup="evento => estado.num1 = evento.target.value" type="number" required placeholder="Primeiro Valor" class="form-control">
+                    <input @keyup="evento => estado.num2 = evento.target.value" type="number" required placeholder="Segundo Valor" class="form-control">
+                    <input @keyup="evento => estado.Nome = evento.target.value" type="text" required placeholder="Digite seu Nome" class="form-control">
+                </div>
+                    <div class="col-md-2">
+                    <label>Selecione a operação:</label>
+                    <select @change="evento => estado.Operation = evento.target.value" class="form-control">
+                    <option value="Adicao" >Adição</option>
+                    <option value="Subtracao">Subtração</option>
+                    <option value="Multiplicacao">Multiplicação</option>
+                    <option value="Divisao">Divisão</option>
+                    </select>
+                </div>
+                    <div class="col-md-2">
+                    <Button :disabled="botaoEstaDesabilitado" type="button" class="btn btn-success" @click="Calcular()">Calcular</Button>
+                    </div>
+            </div>
+        </form>
+        <div class="col-bg-2">
+            <div class="form-control">
+                <span v-if="estado.num1 && estado.num2 != ''" ><h2>Resultado: {{ Calcular() }}</h2></span>
+                <span v-else-if="estado.num1 || estado.num2 ==='' "><h2>Digite os dois números</h2></span>
+            </div>
+        </div>
+
+        
+    </div>
 </template>
 
 <style scoped>
 header {
     background-color: rgb(10, 186, 218);
+}
+img {
+    max-width: 75px;
+}
+
+input, select{
+    border-color: rgb(10, 186, 218);
+}
+
+#cabecalho {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+#resultado {
+    border-color: rgb(10, 186, 218);
 }
 </style>

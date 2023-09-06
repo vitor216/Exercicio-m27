@@ -1,5 +1,8 @@
 <script setup>
 import { reactive } from 'vue';
+import Cabecalho from './components/Cabecalho.vue';
+import Formulario from './components/Formulario.vue';
+import Resultado from './components/Resultado.vue';
 
 const estado = reactive({
     Operation: 'Adicao',
@@ -22,71 +25,16 @@ const Calcular = () => {
 }
 
 const botaoEstaDesabilitado = true;
-
 const EnderecoDaImagemDaCalculadora = "https://media.istockphoto.com/id/544462430/pt/vetorial/calculadora-isolada-numa-cor-de-fundo.jpg?s=612x612&w=0&k=20&c=W9AdCLbbUWCH6zm-SFrLJRLswRrtR9msfUHREFhOZR8="
 
 </script>
 
 <template>
     <div class="container">
-        <header class="p-5 mb-4 mt-4 rounded-3">
-            <div id="cabecalho">
-                <h1>Minha Calculadora</h1>
-                <img :src="EnderecoDaImagemDaCalculadora" alt="">
-            </div>
-            <p>
-                Escolha a Operação e Bons Calculos...
-            </p>
-        </header>
-        <form @button.prevent="Calcular()">
-            <div class="row">
-                <div class="col">
-                    <input @keyup="evento => estado.num1 = evento.target.value" type="number" required placeholder="Primeiro Valor" class="form-control">
-                    <input @keyup="evento => estado.num2 = evento.target.value" type="number" required placeholder="Segundo Valor" class="form-control">
-                </div>
-                    <div class="col-md-2">
-                    <label>Selecione a operação:</label>
-                    <select @change="evento => estado.Operation = evento.target.value" class="form-control">
-                    <option value="Adicao" >Adição</option>
-                    <option value="Subtracao">Subtração</option>
-                    <option value="Multiplicacao">Multiplicação</option>
-                    <option value="Divisao">Divisão</option>
-                    </select>
-                </div>
-                    <div class="col-md-2">
-                    <Button :disabled="botaoEstaDesabilitado" type="button" class="btn btn-success" @click="Calcular()">Calcular</Button>
-                    </div>
-            </div>
-        </form>
-        <div class="col-bg-2">
-            <div class="form-control">
-                <span v-if="estado.num1 && estado.num2 != ''" ><h2>Resultado: {{ Calcular() }}</h2></span>
-                <span v-else-if="estado.num1 || estado.num2 ==='' "><h2>Digite os dois números</h2></span>
-            </div>
-        </div>
-
-        
+    <Cabecalho :EnderecoDaImagem="EnderecoDaImagemDaCalculadora"/>
+    <Formulario :operacao="evento => estado.Operation = evento.target.value" :num1="evento => estado.num1 = evento.target.value" :num2="evento => estado.num2 = evento.target.value" :botao="botaoEstaDesabilitado"/>
+    <Resultado :num1="estado.num1" :num2="estado.num2" :resultado="Calcular()" />
     </div>
 </template>
 
-<style scoped>
-header {
-    background-color: rgb(10, 186, 218);
-}
-img {
-    max-width: 75px;
-}
-
-input, select{
-    border-color: rgb(10, 186, 218);
-}
-
-#cabecalho {
-display: flex;
-align-items: center;
-justify-content: space-between;
-}
-#resultado {
-    border-color: rgb(10, 186, 218);
-}
-</style>
+<style scoped></style>
